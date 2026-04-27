@@ -16,8 +16,12 @@ export const findCalcadosByMarca = async (marcaBusca: string) => {
     return calcados;
 }
 
-export const countTotalCalcados = async() => {
-    const totalCalcados = await prisma.calcado.count(); // função de contar todas as linhas de calçados no banco de dados
+export const countTotalCalcados = async() => { // função de contar a quantidade total de calçados cadastrados
+    let totalCalcados = 0;
+    const calcados = await prisma.calcado.findMany()
 
+    for (const calcado of calcados) {
+        totalCalcados += calcado.quantidade_em_estoque;
+    }
     return totalCalcados;
 }
